@@ -1,8 +1,71 @@
 html, body {
     margin: 0;
     padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-color: #f5f7fb;
 }
 
-title {
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.main-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    flex: 1;
+}
+
+.card {
+    width: 100%;
+    max-width: 420px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    background-color: #fff;
+}
+
+.card-body {
+    padding: 28px;
+}
+
+.card-title {
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+.btn-primary {
+    width: 100%;
+}
+
+.card-text {
+    display: block;
+    margin-top: 8px;
+    color: #4b5563;
+    text-decoration: none;
+}
+
+.card-text:hover {
+    text-decoration: underline;
+}
+
+.error-message {
+    width: 100%;
+    padding: 12px 16px;
+    background-color: #ffe6e6;
+    font-size: 14px;
     text-align: center;
+    box-sizing: border-box;
+}
+
+#error-message-container {
+    width: 100%;
+    min-height: 46px;
 }

@@ -7,7 +7,8 @@ const createWindow = () => {
     width: 1200,
     height: 800,
     resizable: true,
-    title: "Flowdo"
+    title: "Flowdo",
+    //icon: ""
   })
 
   mainWindow.loadFile('src/index.html')
