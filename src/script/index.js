@@ -1,67 +1,41 @@
 // Login
 const form = document.getElementById("login_form");
-const errorContainer = document.getElementById("error-message-container");
-let errorMessage = null;
+const messageDiv = document.getElementById("message-container");
 
-async function loadErrorComponent() {
-  if (!errorContainer) return;
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
 
-  const response = await fetch("components/errorMessage/index.html");
-  const html = await response.text();
-  errorContainer.innerHTML = html;
-  errorMessage = document.getElementById("error-message");
-}
-
-function showError(message) {
-  if (errorMessage) {
-    errorMessage.textContent = message;
-    errorMessage.hidden = false;
-  }
-}
-
-function clearError() {
-  if (errorMessage) {
-    errorMessage.textContent = "";
-    errorMessage.hidden = true;
-  }
-}
-
-await loadErrorComponent();
-
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  clearError();
-
-  if (!form.checkValidity()) {
-    form.reportValidity();
-    showError("Completa todos los campos correctamente.");
-    return;
-  }
+  // Recogemos los datos del form
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData.entries());
 
   try {
-    // La respuesta hace un fetch a la url de la API
+    // Llamada a la API
     const response = await fetch("http://localhost:8080/auth/login", {
-      method: "POST",
+      method: 'POST',
       headers: {
-        // La API espera un JSON
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       },
-      // Transformamos los inputs a formato JSON
-      body: JSON.stringify({
-        email: form.elements.email_input.value.trim(),
-        password: form.elements.pass_input.value
-      })
+      // Pasamos los datos como JSON
+      body: JSON.stringify(data)
     });
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || "Error al iniciar sesión");
+    if (response.ok) {
+      //const result = await response.json(); => Esto lo agregaremos al register
+      setTimeout(() => {
+        messageDiv.textContent = 'Logueado con exito!'
+        messageDiv.style.color = 'green';
+        // Lo mandamos al dashboard
+        location.href = "pages/dashboard/index.html";
+      }, 3000)
+    } else {
+      //const error = await response.text(); => Esto lo agregaremos al register
+      messageDiv.textContent = 'Error de credenciales!';
+      messageDiv.style.color = "red";
     }
-
-    console.log("Login exitoso:", data);
   } catch (error) {
-    console.error("Error:", error.message);
-    showError(error.message);
+    console.log("Error en el backend: ", error);
+    messageDiv.textContent = "Error en el backend";
+    messageDiv.style.color = "red";
   }
-});
+})
